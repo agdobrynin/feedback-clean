@@ -18,8 +18,6 @@ try {
         $router->add($uri, $action);
     }
 
-    $responseCode = 200;
-    $header = sprintf('%s/1.1 %s %s', $protocol, $responseCode, 'OK');
     $response = $router->execute();
 } catch (\Throwable $exception) {
     $responseCode = 500;
