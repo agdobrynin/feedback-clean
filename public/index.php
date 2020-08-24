@@ -20,10 +20,22 @@ try {
 
     $response = $router->execute();
 } catch (\Throwable $exception) {
-    $responseCode = 500;
-    $header = sprintf('%s/1.1 %s %s', $protocol, $responseCode, 'Server Error!');
-    $body = $exception->getFile().PHP_EOL.$exception->getMessage().PHP_EOL.$exception->getTraceAsString();
-    $response = (new Response())->setBody($body);
+    $body = <<< EOL
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="utf-8">
+            <title>Error</title>
+        </head>
+        <body>
+            <h1>{$exception->getMessage()}</h1>
+            <h4>{$exception->getFile()}:{$exception->getLine()}</h4>
+            <pre>{$exception->getTraceAsString()}</pre>
+        </body>
+        </html>
+    EOL;
+
+    $response = (new Response())->setBody($body)->setStatusCode(500, 'Server Error!');
 }
 
 $response->emit();
