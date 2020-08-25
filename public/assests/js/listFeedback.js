@@ -1,3 +1,14 @@
+/* Шаблон сообщения для вывода */
+var listFeedbackTemplate =
+    "<div class=\"panel panel-info\">" +
+    "   <div class=\"panel-heading\"><strong>" +
+    "           Имя: <%name%> " +
+    "           Email: <%email%> " +
+    "   </strong></div>" +
+    "   <div class=\"panel-body\"><%message%></div>" +
+    "   <div class=\"panel-footer text-muted\">сообщение добавлено в <%createdAt%></div>" +
+    "</div>";
+
 /* После полной загрузки DOM - получение списка сообщений и постраничный вывод*/
 $(document).ready(function () {
     $(".page").each(function (index, element) {
@@ -24,10 +35,7 @@ $(document).ready(function () {
                     var message;
                     for(var index in jqXHR.responseJSON.messages) {
                         message = jqXHR.responseJSON.messages[index];
-                        $(result).append(
-                            "<dt>#"+message.id+") "+message.name+", "+message.email+" in "+message.createdAt+"</dt>" +
-                            "<dd>"+message.message+"</dd>"
-                        )
+                        $(result).append(TemplateEngine(listFeedbackTemplate, message));
                     }
                     $(result).removeClass("hide");
                 },

@@ -13,8 +13,8 @@
         <?php } ?>
     <div class="hide alert alert-danger"></div>
     <div id="feedback-list-loader" class="hide progress"><div class="progress-bar progress-bar-striped active" style="width: 100%;"></div></div>
-    <dl id="feedback-list-result">
-    </dl>
+    <div id="feedback-list-result">
+    </div>
 </form>
 <script src="/assests/js/listFeedback.js"></script>
 <?php require_once 'footer.php'?>
