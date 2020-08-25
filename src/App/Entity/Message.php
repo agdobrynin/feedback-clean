@@ -6,11 +6,15 @@ namespace App\Entity;
 
 final class Message
 {
+    public const TABLE = 'Messages';
+
+    private $id;
     private $name;
     private $email;
     private $message;
+    private $createdAt;
 
-    public function __construct(array $input)
+    public function __construct(array $input = [])
     {
         $data = array_values(filter_var_array($input, [
             'name' => FILTER_SANITIZE_STRING,
@@ -22,7 +26,7 @@ final class Message
 
     public function getSql(): string
     {
-        return 'INSERT INTO Messages (name, email, message, createdAt) VALUES (:name, :email, :message, :createdAt)';
+        return sprintf('INSERT INTO %s (name, email, message, createdAt) VALUES (:name, :email, :message, :createdAt)', self::TABLE);
     }
 
     public function getStmData(): array
@@ -50,9 +54,19 @@ final class Message
         return $this;
     }
 
+    public function getId():?int
+    {
+        return (int)$this->id;
+    }
+
     public function getName(): ?string
     {
         return $this->name;
+    }
+
+    public function getCreatedAt(): \DateTimeInterface
+    {
+        return (new \DateTimeImmutable())->setTimestamp((int)$this->createdAt);
     }
 
     public function getEmail(): ?string
@@ -63,5 +77,16 @@ final class Message
     public function getMessage(): ?string
     {
         return $this->message;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'email' => $this->getEmail(),
+            'message' => $this->getMessage(),
+            'createdAt' => $this->getCreatedAt()->format('d.m.Y H:i.s'),
+        ];
     }
 }

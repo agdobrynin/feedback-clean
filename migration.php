@@ -11,20 +11,16 @@ use Core\Config;
 require_once 'autoload.php';
 $pdo = (new Config(require 'config.php'))->pdo();
 
-
-// Имя таблицы сообщений
-const TABLE_MESSAGES = 'Messages';
 // Справка
-
 $help = <<< EOL
 
 Это консольная утилита для выполнения миграций БД.
 
 Для применения миграций выполнить в командной строке:
-php {$argv[0]} --m=up
+php {$argv[0]} -m=up
 
 Для отмены миграций выполнить в командной строке:
-php {$argv[0]} --m=down
+php {$argv[0]} -m=down
 
 EOL;
 
@@ -50,7 +46,7 @@ if ('down' === $migrationType) {
 
 function migrationSqlUp(\PDO $pdo): void
 {
-    $tableMessages = TABLE_MESSAGES;
+    $tableMessages = App\Entity\Message::TABLE;
 
     $sql = <<< SQL
             CREATE TABLE IF NOT EXISTS {$tableMessages} (
@@ -68,7 +64,7 @@ function migrationSqlUp(\PDO $pdo): void
 
 function migrationSqlDown(\PDO $pdo): void
 {
-    $tableMessages = TABLE_MESSAGES;
+    $tableMessages = App\Entity\Message::TABLE;
     $sql = sprintf('DROP TABLE IF EXISTS %s;', $tableMessages);
     print 'Удаление таблицы ' . $tableMessages . ' = ' . $sql . ' : ';
     print $pdo->query($sql)->execute() ? 'success' : 'fail';

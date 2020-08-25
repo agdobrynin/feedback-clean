@@ -20,7 +20,15 @@ try {
 
     $response = $router->execute();
 } catch (\Throwable $exception) {
-    $body = <<< EOL
+    $response = new Response();
+    if ($router->isAjax()) {
+        $data = [
+            'error' => $exception->getMessage(),
+            'trace' => $exception->getTrace(),
+        ];
+        $response->setJson($data);
+    } else {
+        $body = <<< EOL
         <!DOCTYPE html>
         <html lang="en">
         <head>
@@ -33,9 +41,11 @@ try {
             <pre>{$exception->getTraceAsString()}</pre>
         </body>
         </html>
-    EOL;
+        EOL;
+        $response->setBody($body);
+    }
 
-    $response = (new Response())->setBody($body)->setStatusCode(500, 'Server Error!');
+    $response = $response->setStatusCode(500, 'Server Error!');
 }
 
 $response->emit();

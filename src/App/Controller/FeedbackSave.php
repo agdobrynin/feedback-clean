@@ -8,7 +8,7 @@ use App\Entity\Message;
 use Core\{Controller, Response};
 
 
-final class SaveFeedback extends Controller
+final class FeedbackSave extends Controller
 {
     public function __invoke(): Response
     {

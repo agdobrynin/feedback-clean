@@ -13,5 +13,7 @@ return [
 
         return $response->setBody($body);
     },
-    '/store' => App\Controller\SaveFeedback::class,
+    '/store' => App\Controller\FeedbackSave::class,
+    '/list' => App\Controller\FeedbackList::class,
+    '/list/get' => App\Controller\FeedbackGetPage::class,
 ];

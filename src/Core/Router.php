@@ -9,18 +9,27 @@ final class Router
     private $routes;
     private $uri;
     private $config;
+    private $isAjax;
 
     public function __construct(Config $config)
     {
         $this->routes = [];
         $this->uri = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
         $this->config = $config;
+        $this->isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+            && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
     }
+
     public function add(string $route, $callable): self
     {
         $this->routes[$route] = $callable;
 
         return $this;
+    }
+
+    public function isAjax(): bool
+    {
+        return $this->isAjax;
     }
 
     public function execute(): Response
