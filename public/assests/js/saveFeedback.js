@@ -1,4 +1,4 @@
-/* После полной загрузки DOM */
+/* После полной загрузки DOM - отправка формы через ajax запрос */
 $(document).ready(function () {
     /* Отправка Feedback формы на backend и обработка результата */
     $("#feedback-form").submit(function (event) {

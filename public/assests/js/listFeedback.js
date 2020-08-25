@@ -1,4 +1,4 @@
-/* После полной загрузки DOM */
+/* После полной загрузки DOM - получение списка сообщений и постраничный вывод*/
 $(document).ready(function () {
     $(".page").each(function (index, element) {
         $(element).click(function (event) {
