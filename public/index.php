@@ -19,18 +19,11 @@ try {
         $response->setJson($data);
     } else {
         $body = <<< EOL
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="utf-8">
-            <title>Error</title>
-        </head>
-        <body>
+        <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Error</title></head><body>
             <h1>{$exception->getMessage()}</h1>
             <h4>{$exception->getFile()}:{$exception->getLine()}</h4>
             <pre>{$exception->getTraceAsString()}</pre>
-        </body>
-        </html>
+        </body></html>
         EOL;
         $response->setBody($body);
     }
