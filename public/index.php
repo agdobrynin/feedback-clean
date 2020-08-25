@@ -2,25 +2,15 @@
 
 declare(strict_types=1);
 
-use Core\Response;
-
 require_once '../autoload.php';
 
 session_start();
-$protocol = $_SERVER['SERVER_PROTOCOL'] ?? 'HTTP';
 
 try {
-    $config = new Core\Config(require '../config.php');
-    $routes = require '../routes.php';
-    $router = new Core\Router($config);
-
-    foreach ($routes as $uri => $action) {
-        $router->add($uri, $action);
-    }
-
+    $router = require '../boostrap.php';
     $response = $router->execute();
 } catch (\Throwable $exception) {
-    $response = new Response();
+    $response = new Core\Response();
     if ($router->isAjax()) {
         $data = [
             'error' => $exception->getMessage(),
