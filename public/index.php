@@ -11,6 +11,8 @@ try {
     $response = $router->execute();
 } catch (\Throwable $exception) {
     $response = new Core\Response();
+    // Всегда в заголовке отдавать CSRF токен.
+    (new Core\Csrf())->refresh($response);
     if ($router->isAjax()) {
         $data = [
             'error' => $exception->getMessage(),
