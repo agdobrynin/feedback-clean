@@ -29,6 +29,7 @@ try {
     }
 
     $response = $response->setStatusCode(500, 'Server Error!');
+} finally {
+    $response->emit();
 }
 
-$response->emit();
