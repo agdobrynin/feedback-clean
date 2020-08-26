@@ -14,7 +14,7 @@ final class FeedbackSave extends Controller
     {
         $response = new Response();
         // проверми csrf ключ и выставим новый если все ок
-        $this->getCsrf()->verify()->refresh($response);
+        $this->getCsrf()->verify()->setToken($response);
         // Создаю Entity и валидирую данные с POST
         $message = (new Message($_POST))->validate();
         $stm = $this->getPdo()->prepare($message->getSql());

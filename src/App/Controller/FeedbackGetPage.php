@@ -14,7 +14,7 @@ class FeedbackGetPage extends Controller
     {
         $response = new Response();
         // Выдать новый Csrf токен
-        $this->getCsrf()->verify()->refresh($response);
+        $this->getCsrf()->verify()->setToken($response);
         // Работа с коллекцией сообщений
         $messageCollection = new Messages($this->getPdo());
         $page = (int)filter_input(\INPUT_POST, 'page', FILTER_VALIDATE_INT);

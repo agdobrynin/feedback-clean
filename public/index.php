@@ -12,7 +12,7 @@ try {
 } catch (\Throwable $exception) {
     $response = new Core\Response();
     // Всегда в заголовке отдавать CSRF токен.
-    (new Core\Csrf())->refresh($response);
+    (new Core\Csrf())->setToken($response);
     if ($router->isAjax()) {
         $data = [
             'error' => $exception->getMessage(),

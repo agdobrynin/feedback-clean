@@ -12,7 +12,7 @@ final class Csrf
     public function getValue(): string
     {
         if (!isset($_SESSION[self::CSRF_KEY])) {
-            $this->refresh();
+            $this->setToken();
         }
         return $_SESSION[self::CSRF_KEY]['val'];
     }
@@ -36,7 +36,7 @@ final class Csrf
         return $this;
     }
 
-    public function refresh(Response $response): self
+    public function setToken(Response $response): self
     {
         $csrf = $this->generate();
         $_SESSION[self::CSRF_KEY] = ['val' => $csrf, 'ttl' => strtotime(self::TTL)];

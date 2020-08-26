@@ -14,7 +14,7 @@ final class FeedbackList extends Controller
     {
         $response = new Response();
         // Выдать новый Csrf токен
-        $data['csrf'] = $this->getCsrf()->refresh($response);
+        $data['csrf'] = $this->getCsrf()->setToken($response);
         // Работа с коллекцией сообщений
         $messageCollection = new Messages($this->getPdo());
         $data['pages'] = ceil($messageCollection->getTotal() / Messages::PAGE_SIZE);
