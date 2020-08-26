@@ -10,6 +10,8 @@
                     <?php } ?>
                 </ul>
             </nav>
+        <?php } else { ?>
+            <h1>Пусто.</h1>
         <?php } ?>
     <div class="hide alert alert-danger"></div>
     <div id="feedback-list-loader" class="hide progress"><div class="progress-bar progress-bar-striped active" style="width: 100%;"></div></div>
