@@ -49,10 +49,21 @@ $(document).ready(function () {
         $(element).click(function (event) {
             event.preventDefault();
             var form = $("#feedback-list");
+            var inputPageCurrent = $("input[name='page']", form);
+            var chosenPage = $(this).data("page");
+            // если текущее значение в поле страница совпадате с ссылкой навигации с тем же номером - ничего не делаем.
+            if ($(inputPageCurrent).val() == chosenPage) {
+                return;
+            }
+            $(this).parent().addClass("active");
+            $(this).parent().siblings("li").each(function(index, elementLi) {
+                $(elementLi).removeClass("active");
+            });
+
+            $(inputPageCurrent).val(chosenPage);
             var result = $("#feedback-list-result", form);
             var loader = $("#feedback-list-loader", form);
             var errorResult = $(".alert-danger", form);
-            $("input[name='page']", form).val($(this).data("page"));
             $.ajax({
                 type: "POST",
                 url: $(form).attr("action"),

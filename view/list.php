@@ -1,7 +1,7 @@
 <?php require_once 'header.php'?>
 <form action="/list/get" method="post" id="feedback-list">
     <?php print $csrf->getCsrfFiled();?>
-    <input type="hidden" name="page" value="1">
+    <input type="hidden" name="page" value="">
         <?php if ($pages) { ?>
             <nav>
                 <ul class="pagination">
