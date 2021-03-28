@@ -34,7 +34,7 @@ final class Message extends Entity
             throw new \UnexpectedValueException('Email является некорректным');
         }
         if (empty($message)) {
-            throw new \UnexpectedValueException('Поле "Сообщение" обязатльное для заполнения');
+            throw new \UnexpectedValueException('Поле "Сообщение" обязательное для заполнения');
         }
 
         $msg = new self();
