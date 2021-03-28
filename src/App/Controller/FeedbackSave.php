@@ -15,7 +15,7 @@ final class FeedbackSave extends Controller implements ControllerInterface
         // проверим csrf ключ и выставим новый если все ок.
         $this->config->getCsrf()->verify()->setToken($this->response);
         // Создать Entity и проверить на корректность входных данных.
-        $message = (new Message())->createFromPostAndValidate($_POST);
+        $message = Message::createFromPostAndValidate($_POST);
 
         $entityManager = new EntityManager($this->config->pdo());
         $entityManager->add($message);

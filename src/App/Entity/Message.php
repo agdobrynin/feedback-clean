@@ -17,7 +17,7 @@ final class Message extends Entity
     public $message;
     public $createdAt;
 
-    public function createFromPostAndValidate(array $input = []): self
+    public static function createFromPostAndValidate(array $input = []): self
     {
         $data = array_values(filter_var_array($input, [
             'name' => FILTER_SANITIZE_STRING,
@@ -25,20 +25,25 @@ final class Message extends Entity
             'message' => FILTER_SANITIZE_STRING,
         ]));
 
-        [$this->name, $this->email, $this->message] = array_map('trim'  , $data);
-        $this->createdAt = time();
+        [$name, $email, $message] = array_map('trim'  , $data);
 
-        if (empty($this->name)) {
+        if (empty($name)) {
             throw new \UnexpectedValueException('Поле "Имя" обязательное для заполнения');
         }
-        if (empty($this->email)) {
+        if (empty($email)) {
             throw new \UnexpectedValueException('Email является некорректным');
         }
-        if (empty($this->message)) {
+        if (empty($message)) {
             throw new \UnexpectedValueException('Поле "Сообщение" обязатльное для заполнения');
         }
 
-        return $this;
+        $msg = new self();
+        $msg->name = $name;
+        $msg->email = $email;
+        $msg->message = $message;
+        $msg->createdAt = time();
+
+        return $msg;
     }
 
     public function getTableName(): string
