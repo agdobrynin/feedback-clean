@@ -4,21 +4,20 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Collection\Messages;
-use App\Entity\Message;
-use Core\{Controller, Response};
+use App\Collection\Messages as MessageCollection;
+use Core\{Controller, ControllerInterface, Response};
 
-final class FeedbackList extends Controller
+final class FeedbackList extends Controller implements ControllerInterface
 {
     public function __invoke(): Response
     {
-        $response = new Response();
         // Выдать новый Csrf токен
-        $data['csrf'] = $this->getCsrf()->setToken($response);
-        // Работа с коллекцией сообщений
-        $messageCollection = new Messages($this->getPdo());
-        $data['pages'] = ceil($messageCollection->getTotal() / Messages::PAGE_SIZE);
+        $data['csrf'] = $this->config->getCsrf()->setToken($this->response);
 
-        return $response->setBody($this->getView()->render('list', $data));
+        // Работа с коллекцией сообщений
+        $messageCollection = new MessageCollection($this->config->pdo());
+        $data['pages'] = ceil($messageCollection->getTotal() / MessageCollection::PAGE_SIZE);
+
+        return $this->response->setBody($this->getView()->render('list', $data));
     }
 }

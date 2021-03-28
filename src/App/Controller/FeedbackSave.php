@@ -5,21 +5,21 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Message;
-use Core\{Controller, Response};
+use Core\{Controller, ControllerInterface, EntityManager, Response};
 
 
-final class FeedbackSave extends Controller
+final class FeedbackSave extends Controller implements ControllerInterface
 {
     public function __invoke(): Response
     {
-        $response = new Response();
-        // проверми csrf ключ и выставим новый если все ок
-        $this->getCsrf()->verify()->setToken($response);
-        // Создаю Entity и валидирую данные с POST
-        $message = (new Message($_POST))->validate();
-        $stm = $this->getPdo()->prepare($message->getSql());
-        $stm->execute($message->getStmData());
+        // проверим csrf ключ и выставим новый если все ок.
+        $this->config->getCsrf()->verify()->setToken($this->response);
+        // Создать Entity и проверить на корректность входных данных.
+        $message = (new Message())->createFromPostAndValidate($_POST);
 
-        return $response->setJson(['success' => sprintf('Спасибо, %s', $message->getName())]);
+        $entityManager = new EntityManager($this->config->pdo());
+        $entityManager->add($message);
+
+        return $this->response->setJson(['success' => sprintf('Спасибо, %s', $message->name)]);
     }
 }

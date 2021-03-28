@@ -5,27 +5,19 @@ declare(strict_types=1);
 namespace Core;
 
 
-class Controller
+abstract class Controller implements ControllerInterface
 {
-    private $config;
+    protected $config;
+    protected $response;
 
     public function __construct(Config $config)
     {
         $this->config = $config;
-    }
-
-    public function getCsrf(): Csrf
-    {
-        return $this->config->getCsrf();
+        $this->response = new Response();
     }
 
     public function getView(): View
     {
         return new View($this->config->getViewPath());
-    }
-
-    public function getPdo(): \PDO
-    {
-        return $this->config->pdo();
     }
 }

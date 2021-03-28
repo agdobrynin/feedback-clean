@@ -4,26 +4,29 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Collection\Messages;
+use App\Collection\Messages as MessageCollection;
 use App\Entity\Message;
-use Core\{Controller, Response};
+use Core\{Controller, ControllerInterface, Response};
 
-class FeedbackGetPage extends Controller
+final class FeedbackGetPage extends Controller implements ControllerInterface
 {
     public function __invoke(): Response
     {
-        $response = new Response();
         // Выдать новый Csrf токен
-        $this->getCsrf()->verify()->setToken($response);
+        $this->config->getCsrf()->verify()->setToken($this->response);
+
         // Работа с коллекцией сообщений
-        $messageCollection = new Messages($this->getPdo());
+        $messageCollection = new MessageCollection($this->config->pdo());
         $page = (int)filter_input(\INPUT_POST, 'page', FILTER_VALIDATE_INT);
         $messages = [];
+
         foreach ($messageCollection->getOnPage($page) as $message) {
             /** @var $message Message */
-            $messages[] = $message->toArray();
+            $message->createdAt = (new \DateTime())->setTimestamp((int)$message->createdAt)
+                ->format('g:ia \o\n l jS F Y');
+            $messages[] = $message;
         }
 
-        return $response->setJson(['messages' => $messages]);
+        return $this->response->setJson(['messages' => $messages]);
     }
 }
