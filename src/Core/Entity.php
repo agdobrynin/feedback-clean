@@ -39,4 +39,6 @@ abstract class Entity
 
     abstract public function getTableName(): string;
     abstract public function getPrimaryKeyName(): string;
+    abstract public function getPrimaryKeyValue();
+    abstract public function setPrimaryKeyValue($primaryKeyValue): void;
 }

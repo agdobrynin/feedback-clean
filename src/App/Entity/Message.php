@@ -55,4 +55,14 @@ final class Message extends Entity
     {
         return 'id';
     }
+
+    public function getPrimaryKeyValue()
+    {
+        return $this->id;
+    }
+
+    public function setPrimaryKeyValue($primaryKeyValue): void
+    {
+        $this->id = $primaryKeyValue;
+    }
 }
