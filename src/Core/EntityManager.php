@@ -14,7 +14,7 @@ final class EntityManager
     }
 
 
-    public function add(Entity $entity): void
+    public function add(EntityInterface $entity): void
     {
         $table = $entity->getTableName();
         $fields = implode(', ', $entity->getFields());

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core;
 
-abstract class Entity
+abstract class Entity implements EntityInterface
 {
     protected $reflection;
     private $fieldsWithPlaceholders;
@@ -36,9 +36,4 @@ abstract class Entity
 
         return $val;
     }
-
-    abstract public function getTableName(): string;
-    abstract public function getPrimaryKeyName(): string;
-    abstract public function getPrimaryKeyValue();
-    abstract public function setPrimaryKeyValue($primaryKeyValue): void;
 }
