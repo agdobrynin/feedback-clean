@@ -39,7 +39,13 @@ final class Router
         $action = $this->routes[$this->uri] ?? null;
         if ($action) {
             if (is_string($action)) {
-                return call_user_func(new $action($this->config, $this->response));
+                $controller = new $action($this->config, $this->response);
+                if (!($controller instanceof ControllerInterface)) {
+                    $message = sprintf('"%s" not implement interface ControllerInterface', $action);
+                    throw new \InvalidArgumentException($message);
+                }
+
+                return call_user_func($controller);
             }
 
             if (is_callable($action)) {
