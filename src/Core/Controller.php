@@ -10,10 +10,10 @@ abstract class Controller implements ControllerInterface
     protected $config;
     protected $response;
 
-    public function __construct(Config $config)
+    public function __construct(Config $config, Response $response)
     {
         $this->config = $config;
-        $this->response = new Response();
+        $this->response = $response;
     }
 
     public function getView(): View
